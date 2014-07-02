@@ -46,8 +46,8 @@ function startServer(){
       res.writeHead(302, {
         'Cache-Control': 'no-store',
         'Pragma': 'no-cache',
-        'Location': application.createSsoUrl({
-          cb_uri: CB_URI,
+        'Location': application.createIdSiteUrl({
+          callbackUri: CB_URI,
           path: '/#/register'
         })
       });

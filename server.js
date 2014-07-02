@@ -53,7 +53,7 @@ function startServer(){
       });
       res.end();
     }else if(params.jwtResponse){
-      application.handleIdSiteCallback(req.url,function(err,account){
+      application.handleIdSiteCallback(req.url,function(err,result){
         if(err){
           res.writeHead(500, {
             'Cache-Control': 'no-store',
@@ -67,7 +67,7 @@ function startServer(){
             'content-type': 'text/html',
             'Pragma': 'no-cache'
           });
-          res.end(fs.readFileSync('account.html').toString().replace('%ACCOUNT%', account.fullName));
+          res.end(fs.readFileSync('account.html').toString().replace('%ACCOUNT%', result.account.fullName));
         }
       });
     }else{

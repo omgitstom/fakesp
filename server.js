@@ -32,6 +32,16 @@ function startServer(){
         })
       });
       res.end();
+    }else if(req.url==='/register'){
+      res.writeHead(302, {
+        'Cache-Control': 'no-store',
+        'Pragma': 'no-cache',
+        'Location': application.createSsoUrl({
+          cb_uri: CB_URI,
+          path: '/#/register'
+        })
+      });
+      res.end();
     }else if(params.jwtResponse){
       application.handleSsoResponse(req.url,function(err,account){
         if(err){
@@ -47,7 +57,7 @@ function startServer(){
             'content-type': 'text/html',
             'Pragma': 'no-cache'
           });
-          res.end(fs.readFileSync('account.html').toString().replace('ACCOUNT',JSON.stringify(account,null,2)));
+          res.end(fs.readFileSync('account.html').toString().replace('%ACCOUNT%', account.fullName));
         }
       });
     }else{

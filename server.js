@@ -25,10 +25,20 @@ function startServer(){
       res.writeHead(302, {
         'Cache-Control': 'no-store',
         'Pragma': 'no-cache',
-        'Location': application.createSsoUrl({
-          cb_uri: CB_URI,
+        'Location': application.createIdSiteUrl({
+          callbackUri: CB_URI,
+          path: SSO_SITE_PATH
+        })
+      });
+      res.end();
+    }else if(req.url==='/logout'){
+      res.writeHead(302, {
+        'Cache-Control': 'no-store',
+        'Pragma': 'no-cache',
+        'Location': application.createIdSiteUrl({
+          callbackUri: CB_URI,
           path: SSO_SITE_PATH,
-          state: 'whaaatuppp'
+          logout: true
         })
       });
       res.end();
@@ -43,7 +53,7 @@ function startServer(){
       });
       res.end();
     }else if(params.jwtResponse){
-      application.handleSsoResponse(req.url,function(err,account){
+      application.handleIdSiteCallback(req.url,function(err,account){
         if(err){
           res.writeHead(500, {
             'Cache-Control': 'no-store',

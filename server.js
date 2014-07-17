@@ -11,7 +11,7 @@ var STORMPATH_API_KEY_ID = process.env.STORMPATH_API_KEY_ID;
 var STORMPATH_API_KEY_SECRET = process.env.STORMPATH_API_KEY_SECRET;
 var STORMPATH_APP_HREF = process.env.STORMPATH_APP_HREF;
 var PORT = process.env.PORT || 8001;
-var DOMAIN = process.env.DOMAIN || 'local.coco-cola.com';
+var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';
 var SSO_SITE_PATH = process.env.SSO_SITE_PATH || '';
 var CB_URI = process.env.CB_URI || ('http://' + DOMAIN + ':' + PORT);
 

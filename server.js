@@ -21,6 +21,8 @@ function startServer(){
   http.createServer(function (req, res) {
     console.log(req.headers.host,req.method,req.headers['content-type'] || '',req.url);
     var params = url.parse(req.url,true).query;
+
+
     if(req.url==='/login'){
       res.writeHead(302, {
         'Cache-Control': 'no-store',
@@ -62,12 +64,22 @@ function startServer(){
           });
           res.end(fs.readFileSync('error.html').toString().replace('ERROR',err));
         }else{
-          res.writeHead(200, {
+          if(result.status === "AUTHENTICATED"){
+            res.writeHead(200, {
             'Cache-Control': 'no-store',
             'content-type': 'text/html',
             'Pragma': 'no-cache'
-          });
-          res.end(fs.readFileSync('account.html').toString().replace('%ACCOUNT%', result.account.fullName));
+            });
+            res.end(fs.readFileSync('account.html').toString().replace('%ACCOUNT%', result.account.fullName));
+          }
+          if(result.status === "LOGOUT"){
+            res.writeHead(200, {
+            'Cache-Control': 'no-store',
+            'content-type': 'text/html',
+            'Pragma': 'no-cache'
+            });
+            res.end(fs.readFileSync('logout.html'));
+          }
         }
       });
     }else{

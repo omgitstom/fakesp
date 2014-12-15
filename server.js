@@ -9,7 +9,7 @@ var IS_PRODUCTION = process.env.NODE_ENV==='production';
 var API_KEY_FILE = process.env.API_KEY_FILE;
 var STORMPATH_API_KEY_ID = process.env.STORMPATH_API_KEY_ID;
 var STORMPATH_API_KEY_SECRET = process.env.STORMPATH_API_KEY_SECRET;
-var STORMPATH_APP_HREF = process.env.STORMPATH_APP_HREF;
+var STORMPATH_APP_HREF = "https://api.stormpath.com/v1/applications/3QIMlJKKN2whGCYzXXw1t8";
 var PORT = process.env.PORT || 8001;
 var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';
 var SSO_SITE_PATH = process.env.SSO_SITE_PATH || '';
@@ -21,9 +21,17 @@ function startServer(){
   http.createServer(function (req, res) {
     console.log(req.headers.host,req.method,req.headers['content-type'] || '',req.url);
     var params = url.parse(req.url,true).query;
-
-
-    if(req.url==='/login'){
+    if (req.url==='/sendToSprite'){
+      res.writeHead(302, {
+        'Cache-Control': 'no-store',
+        'Pragma': 'no-cache',
+        'Location': application.createIdSiteUrl({
+          callbackUri: 'http://limitless-ravine-7654.herokuapp.com/',
+          path: SSO_SITE_PATH
+        })
+      });
+      res.end();
+    }else if(req.url==='/login'){
       res.writeHead(302, {
         'Cache-Control': 'no-store',
         'Pragma': 'no-cache',

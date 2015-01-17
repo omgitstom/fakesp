@@ -7,9 +7,9 @@ var open = require('open');
 var client, application;
 var IS_PRODUCTION = process.env.NODE_ENV==='production';
 var API_KEY_FILE = process.env.API_KEY_FILE;
-var STORMPATH_API_KEY_ID = process.env.STORMPATH_API_KEY_ID;
-var STORMPATH_API_KEY_SECRET = process.env.STORMPATH_API_KEY_SECRET;
-var STORMPATH_APP_HREF = "https://api.stormpath.com/v1/applications/3QIMlJKKN2whGCYzXXw1t8";
+var STORMPATH_API_KEY_ID = process.env.STORMPATH_API_KEY_ID_PRIVATE;
+var STORMPATH_API_KEY_SECRET = process.env.STORMPATH_API_KEY_SECRET_PRIVATE;
+var STORMPATH_APP_HREF = "https://ec2-23-20-238-54.compute-1.amazonaws.com:8443/v1/applications/3HKWJkJMaPBeb3zRy2ZtpC";
 var PORT = process.env.PORT || 8001;
 var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';
 var SSO_SITE_PATH = process.env.SSO_SITE_PATH || '';
@@ -72,7 +72,7 @@ function startServer(){
           });
           res.end(fs.readFileSync('error.html').toString().replace('ERROR',err));
         }else{
-          if(result.status === "AUTHENTICATED"){
+          if(result.status === "AUTHENTICATED" || result.status==="REGISTERED"){
             res.writeHead(200, {
             'Cache-Control': 'no-store',
             'content-type': 'text/html',

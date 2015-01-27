@@ -25,10 +25,7 @@ function startServer(){
       res.writeHead(302, {
         'Cache-Control': 'no-store',
         'Pragma': 'no-cache',
-        'Location': application.createIdSiteUrl({
-          callbackUri: 'http://limitless-ravine-7654.herokuapp.com/',
-          path: SSO_SITE_PATH
-        })
+        'Location': 'http://limitless-ravine-7654.herokuapp.com/login'
       });
       res.end();
     }else if(req.url==='/login'){

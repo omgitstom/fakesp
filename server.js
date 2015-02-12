@@ -9,7 +9,7 @@ var IS_PRODUCTION = process.env.NODE_ENV==='production';
 var API_KEY_FILE = process.env.API_KEY_FILE;
 var STORMPATH_API_KEY_ID = process.env.STORMPATH_API_KEY_ID;
 var STORMPATH_API_KEY_SECRET = process.env.STORMPATH_API_KEY_SECRET;
-var STORMPATH_APP_HREF = "https://api.stormpath.com/v1/applications/3QIMlJKKN2whGCYzXXw1t8";
+var STORMPATH_APP_HREF = process.env.STORMPATH_APP_HREF || "https://api.stormpath.com/v1/applications/3QIMlJKKN2whGCYzXXw1t8";
 var PORT = process.env.PORT || 8001;
 var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';
 var SSO_SITE_PATH = process.env.SSO_SITE_PATH || '';

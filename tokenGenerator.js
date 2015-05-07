@@ -20,16 +20,23 @@ function startServer(){
   console.log('attempt to start server on port ' + PORT);
   http.createServer(function (req, res) {
 
-    res.writeHead(302, {
-      'Cache-Control': 'no-store',
-      'Pragma': 'no-cache',
-      'Location': application.createIdSiteUrl({
-        callbackUri: CB_URI,
-        path: SSO_SITE_PATH
-      })
-    });
-    res.end();
+    var params = url.parse(req.url,true).query;
 
+    if(params.jwtResponse){
+      application.handleIdSiteCallback(req.url,function(err,result){
+        
+        if(result.status==='LOGOUT'){
+          redirect(res, false);
+        } else if(result.status==='AUTHENTICATED' || result.status==='REGISTERED'){
+          console.log('Status: ', result.status);
+          console.log('Account\'s email: ', result.account.email);
+          redirect(res, true);
+        }
+
+      });
+    }
+
+    redirect(res);
 
   }).listen(PORT,function(){
     if(!IS_PRODUCTION){
@@ -38,6 +45,19 @@ function startServer(){
   });
 
   console.log('Server running on port '+PORT);
+}
+
+function redirect(res, logout){
+    res.writeHead(302, {
+      'Cache-Control': 'no-store',
+      'Pragma': 'no-cache',
+      'Location': application.createIdSiteUrl({
+        'callbackUri': CB_URI,
+        'path': SSO_SITE_PATH,
+        'logout': logout
+      })
+    });
+    res.end();
 }
 
 function getApplication(){

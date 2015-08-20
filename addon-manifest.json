@@ -1,0 +1,17 @@
+{
+  "id": "stormpath",
+  "api": {
+    "config_vars": [ "STORMPATH_URL" , "STORMPATH_API_KEY_ID", "STORMPATH_API_KEY_SECRET" ],
+    "regions": [ "us" ],
+    "password": "dc165e170b90dfd6ea7fc512b955be95",
+    "sso_salt": "642d3e6ec667c0722f1940eece881140",
+    "production": {
+      "base_url": "https://api.stormpath.com/vendors/heroku/resources",
+      "sso_url": "https://api.stormpath.com/vendors/heroku/sso/login"
+    },
+    "test": {
+      "base_url": "https://staging-api-b.stormpath.com/vendors/heroku/resources",
+      "sso_url": "https://staging-api-b.stormpath.com/vendors/heroku/sso/login"
+    }
+  }
+}

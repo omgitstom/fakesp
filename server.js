@@ -13,7 +13,7 @@ var STORMPATH_APP_HREF = 'http://enterprise.stormpath.io/v1/applications/73YdqaH
 var PORT = process.env.PORT || 8001;
 var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';
 var SSO_SITE_PATH = process.env.SSO_SITE_PATH || '';
-var CB_URI = process.env.CB_URI || ('http://' + DOMAIN + ':' + PORT);
+var CB_URI = 'balls';//process.env.CB_URI || ('http://' + DOMAIN + ':' + PORT);
 
 
 function startServer(){

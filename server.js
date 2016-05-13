@@ -6,9 +6,9 @@ var open = require('open');
 
 var client, application;
 var IS_PRODUCTION = process.env.NODE_ENV==='production';
-var API_KEY_FILE = process.env.API_KEY_FILE;
-var STORMPATH_API_KEY_ID = '3BK5MFKO7GE7SPYV0C2C67NTW';
-var STORMPATH_API_KEY_SECRET = 'qYUSz9FYACCatd+782EmFY5IxdZqlho9gZdER14GRf8';
+var API_KEY_FILE = undefined; //process.env.API_KEY_FILE
+var STORMPATH_API_KEY_ID = '112MOCMXJMSSRS0INB81QG2PJ';
+var STORMPATH_API_KEY_SECRET = 'w5BtlW9yzq25MoHaCPBfBx2VZfaYSEyhu1pNPX2p9Gg';
 var STORMPATH_APP_HREF = 'http://enterprise.stormpath.io/v1/applications/73YdqaH8RrE7fMmZQ3HLLx';
 var PORT = process.env.PORT || 8001;
 var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';

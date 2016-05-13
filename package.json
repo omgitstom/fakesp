@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "njwt": "~0.2.2",
     "node-uuid": "^1.4.1",
-    "stormpath": "git://github.com/stormpath/stormpath-sdk-node#organizations",
     "open": "0.0.5",
-    "njwt": "~0.2.2"
+    "stormpath": "^0.18.2"
   }
 }

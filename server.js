@@ -138,7 +138,8 @@ if(API_KEY_FILE){
     apiKey: new stormpath.ApiKey(
       STORMPATH_API_KEY_ID,
       STORMPATH_API_KEY_SECRET
-    )
+    ),
+	"baseUrl": "https://enterprise.stormpath.io/"
   });
   getApplication();
 }

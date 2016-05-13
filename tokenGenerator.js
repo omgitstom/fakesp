@@ -3,6 +3,7 @@ var fs = require('fs');
 var url = require('url');
 var stormpath = require('stormpath');
 var open = require('open');
+var nJwt = require('nJwt');
 
 var client, application;
 var IS_PRODUCTION = process.env.NODE_ENV==='production';
@@ -48,14 +49,62 @@ function startServer(){
 }
 
 function redirect(res, logout){
-    res.writeHead(302, {
-      'Cache-Control': 'no-store',
-      'Pragma': 'no-cache',
-      'Location': application.createIdSiteUrl({
+    var iat = new Date() / 1000;
+    var exp = iat + 1000;
+    var claims  = {
+      "sub": "31E3D6Z3LZ1WEHBFYTPFK1G68", //API Key ID
+      "app_href": "https://api.stormpath.com/v1/applications/6Ztdb1GukdvzdlTWD40giL",
+      "cb_uri": "http://limitless-ravine-7654.herokuapp.com/",
+      "iat": iat,
+      "exp": exp,
+      "jti": "m2wL37oVCYxbYuETJZXaV",
+      "scope": {
+        "application": {
+          "6Ztdb1GukdvzdlTWD40giL": [
+            "read",
+            {
+              "idSiteModel": [
+                "read"
+              ]
+            },
+            {
+              "loginAttempt": [
+                "create"
+              ]
+            },
+            {
+              "account": [
+                "create"
+              ]
+            },
+            {
+              "passwordResetToken": [
+                "create"
+              ]
+            }
+          ]
+        }
+      },
+      "state": "",
+      "init_jti": "93de2e84-7198-4dde-a37a-523ee8f3e75c"
+    };
+
+    var jwt = nJwt.create(claims,STORMPATH_API_KEY_SECRET)
+    var compact = jwt.compact();
+
+    console.log(compact);
+
+    var location = application.createIdSiteUrl({
         'callbackUri': CB_URI,
         'path': SSO_SITE_PATH,
         'logout': logout
-      })
+      });
+    console.log(location);
+    location = 'https://elastic-rebel.id.stormpath.io/#/?jwt=' + compact;
+    res.writeHead(302, {
+      'Cache-Control': 'no-store',
+      'Pragma': 'no-cache',
+      'Location': location
     });
     res.end();
 }

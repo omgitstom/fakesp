@@ -13,7 +13,7 @@ var STORMPATH_API_KEY_SECRET = process.env.STORMPATH_API_KEY_SECRET;
 var STORMPATH_APP_HREF = process.env.STORMPATH_APP_HREF || "https://api.stormpath.com/v1/applications/3QIMlJKKN2whGCYzXXw1t8";
 var PORT = process.env.PORT || 8001;
 var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';
-var SSO_SITE_PATH = process.env.SSO_SITE_PATH || '';
+var SSO_SITE_PATH = '/#/verify';
 var CB_URI = process.env.CB_URI || ('http://' + DOMAIN + ':' + PORT);
 
 
@@ -34,7 +34,7 @@ function startServer(){
         'Cache-Control': 'no-store',
         'Pragma': 'no-cache',
         'Location': application.createIdSiteUrl({
-          callbackUri: CB_URI,
+	  callbackUri: CB_URI,
           path: SSO_SITE_PATH
         })
       });
@@ -57,6 +57,16 @@ function startServer(){
         'Location': application.createIdSiteUrl({
           callbackUri: CB_URI,
           path: '/#/register'
+        })
+      });
+      res.end();
+    }else if(req.url==='/boa'){
+      res.writeHead(302, {
+        'Cache-Control': 'no-store',
+        'Pragma': 'no-cache',
+        'Location': application.createIdSiteUrl({
+          callbackUri: CB_URI,
+          organizationNameKey: 'bank-of-america'
         })
       });
       res.end();
@@ -84,7 +94,8 @@ function startServer(){
             'content-type': 'text/html',
             'Pragma': 'no-cache'
             });
-            res.end(fs.readFileSync('logout.html'));
+            	console.log(result.account);
+		res.end(fs.readFileSync('logout.html'));
           }
         }
       });

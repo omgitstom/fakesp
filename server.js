@@ -6,6 +6,7 @@ var open = require('open');
 
 var client, application;
 var IS_PRODUCTION = process.env.NODE_ENV==='production';
+
 var API_KEY_FILE = undefined; //process.env.API_KEY_FILE
 var STORMPATH_API_KEY_ID = '112MOCMXJMSSRS0INB81QG2PJ';
 var STORMPATH_API_KEY_SECRET = 'w5BtlW9yzq25MoHaCPBfBx2VZfaYSEyhu1pNPX2p9Gg';
@@ -13,8 +14,7 @@ var STORMPATH_APP_HREF = 'http://enterprise.stormpath.io/v1/applications/73YdqaH
 var PORT = process.env.PORT || 8001;
 var DOMAIN = process.env.DOMAIN || 'local.coca-cola.com';
 var SSO_SITE_PATH = process.env.SSO_SITE_PATH || '';
-var CB_URI = 'balls';//process.env.CB_URI || ('http://' + DOMAIN + ':' + PORT);
-
+var CB_URI = process.env.CB_URI || ('http://' + DOMAIN + ':' + PORT);
 
 function startServer(){
   console.log('attempt to start server on port ' + PORT);
@@ -33,7 +33,7 @@ function startServer(){
         'Cache-Control': 'no-store',
         'Pragma': 'no-cache',
         'Location': application.createIdSiteUrl({
-          callbackUri: CB_URI,
+	  callbackUri: CB_URI,
           path: SSO_SITE_PATH
         })
       });
@@ -59,6 +59,16 @@ function startServer(){
         })
       });
       res.end();
+    }else if(req.url==='/boa'){
+      res.writeHead(302, {
+        'Cache-Control': 'no-store',
+        'Pragma': 'no-cache',
+        'Location': application.createIdSiteUrl({
+          callbackUri: CB_URI,
+          organizationNameKey: 'bank-of-america'
+        })
+      });
+      res.end();
     }else if(params.jwtResponse){
       application.handleIdSiteCallback(req.url,function(err,result){
         if(err){
@@ -69,7 +79,7 @@ function startServer(){
           });
           res.end(fs.readFileSync('error.html').toString().replace('ERROR',err));
         }else{
-          if(result.status === "AUTHENTICATED"){
+          if(result.status === "AUTHENTICATED" || result.status==="REGISTERED"){
             res.writeHead(200, {
             'Cache-Control': 'no-store',
             'content-type': 'text/html',
@@ -83,7 +93,8 @@ function startServer(){
             'content-type': 'text/html',
             'Pragma': 'no-cache'
             });
-            res.end(fs.readFileSync('logout.html'));
+            	console.log(result.account);
+		res.end(fs.readFileSync('logout.html'));
           }
         }
       });
